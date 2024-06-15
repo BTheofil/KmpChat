@@ -1,14 +1,16 @@
 package presentation.main
 
 import androidx.lifecycle.ViewModel
-import data.KtorClient
+import androidx.lifecycle.viewModelScope
+import domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val ktorClient: KtorClient
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState())
@@ -22,4 +24,8 @@ class MainViewModel(
     fun onNameChange(text: String) = _uiState.update { it.copy(name = text) }
 
     fun onGroupIdChange(text: String) = _uiState.update { it.copy(groupId = text) }
+
+    fun enterGroup() = viewModelScope.launch {
+        userRepository.setUserInfo(uiState.value.name, uiState.value.groupId)
+    }
 }

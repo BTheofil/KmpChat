@@ -2,7 +2,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,6 +11,8 @@ import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
 import presentation.main.MainScreen
 import presentation.main.MainViewModel
+import presentation.message.MessageScreen
+import presentation.message.MessageViewModel
 
 @Composable
 @Preview
@@ -30,12 +31,22 @@ fun App() {
                     state = state,
                     onNameFieldChange = vm::onNameChange,
                     onGroupFieldChange = vm::onGroupIdChange,
-                    onEnterButtonClick = {}
+                    onEnterButtonClick = {
+                        vm.enterGroup()
+                        controller.navigate("message/${vm.uiState.value.groupId}")
+                    }
                 )
             }
 
-            composable(route = "message"){
-
+            composable(route = "message/{groupId}"){
+                val vm = koinInject<MessageViewModel>()
+                val state by vm.uiState.collectAsState()
+                MessageScreen(
+                    state = state,
+                    event = vm.uiEvent,
+                    onMessageChange = vm::onMessageChange,
+                    sendMessage = vm::sendMessage
+                )
             }
         }
     }

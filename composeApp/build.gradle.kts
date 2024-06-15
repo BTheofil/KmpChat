@@ -49,9 +49,9 @@ kotlin {
 
             implementation(libs.ktor.client.okhttp)
 
-            implementation(platform("io.insert-koin:koin-bom:3.5.3"))
+            /*implementation(platform("io.insert-koin:koin-bom:3.5.3"))
             implementation("io.insert-koin:koin-core")
-            implementation("io.insert-koin:koin-android")
+            implementation("io.insert-koin:koin-android")*/
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -69,6 +69,8 @@ kotlin {
 
             implementation("io.ktor:ktor-client-websockets:2.3.11")
             implementation("io.ktor:ktor-client-cio:2.3.11")
+            implementation("io.ktor:ktor-client-serialization:2.3.6")
+
             implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
 
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.6"))
